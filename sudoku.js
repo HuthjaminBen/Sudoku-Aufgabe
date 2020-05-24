@@ -33,19 +33,20 @@ Einzelfunktionen überprüft.
 ###!!! Achtung DERZEIT werden unausfüllbare Felder abgebrochen und noch nicht abgefangen!!!
 
 */
-//try {
+
 function sudoku() {
-    let anzahl = document.getElementById("vorausgefüllt").value; // übernimmt Nutzer/innenangabe
+    let anzahl = document.getElementById("vorausgefüllt").value; // übernimmt Nutzer/innenangabe Anzahl der vorauszufüllenden Felder
     for (let i = 0; i < anzahl; i++) {
         let wert = Math.round(Math.random() * 9); // Ziffer für Sudokufeld
         let y = (Math.round(Math.random() * 8).toString()); // y-Variable (das "-1" entstammt den ID-Bezeichnungen oben (von 0-8 statt von 1-9)
         let x = (Math.round(Math.random() * 8).toString()); // x-Variable (das "-1" entstammt den ID-Bezeichnungen oben (von 0-8 statt von 1-9)
         let ziel = x + y; // erzeugt die Zielvariablen des Feldes
         let feld = document.getElementById(ziel); // ließt Wert im Feld aus
+        //feld.style.backgroundColor = "lightblue";  // mit hilfe dieser Färbung und der ab den Zeilen 180 konnte ich feststellen, dass die Bezüge der letzten FUnktion nicht stimmten 
         if (feld.value == " ") { // erste Bedingung
             let check1 = reihencheck(y, wert); // 2. Bedingung (ext Fkf)
             let check2 = spaltencheck(x, wert); // 3. Bedingung (ext Fkf)
-            let check3 = quadratcheck(y, x, wert); // 4. Bedingung (ext Fkf)
+            let check3 = quadratcheck(x, y, wert); // 4. Bedingung (ext Fkf)
             if (check1 && check2 && check3) { // wenn alle Bed. erfüllt sind wird der Wert ins Feld eingetragen
                 feld.value = wert;
             }
@@ -177,22 +178,29 @@ function quadratcheck(x, y, wert) { // da von den 9 Zellen des kleinen Quadrates
     let verglWert4;
     for (let i = 0; i < 3; i++) {
         verglWert1 = document.getElementById(verX1.toString() + verY1).value;
+        //document.getElementById(verX1.toString() + verY1).style.backgroundColor = "yellow";
         verglWert2 = document.getElementById(verX2.toString() + verY1).value;
+        //document.getElementById(verX2.toString() + verY1).style.backgroundColor = "yellow";
         verglWert3 = document.getElementById(verX1.toString() + verY2).value;
+        //document.getElementById(verX1.toString() + verY2).style.backgroundColor = "yellow";
         verglWert4 = document.getElementById(verX2.toString() + verY2).value;
+        //document.getElementById(verX2.toString() + verY2).style.backgroundColor = "yellow";
+        //alert(verglWert1 + "," + verglWert2 + "," + verglWert3 + "," + verglWert4);
     }
     if (wert == verglWert1) { // der eigentliche Vergleich
         erlaubt = false;
-    }
-    if (wert == verglWert2) {
-        erlaubt = false;
-    }
-    if (wert == verglWert3) {
-        erlaubt = false;
-    }
-    if (wert == verglWert4) {
-        erlaubt = false;
+    } else {
+        if (wert == verglWert2) {
+            erlaubt = false;
+        } else {
+            if (wert == verglWert3) {
+                erlaubt = false;
+            } else {
+                if (wert == verglWert4) {
+                    erlaubt = false;
+                }
+            }
+        }
     }
     return erlaubt;
 }
-//} catch (x) { alert(x) }
